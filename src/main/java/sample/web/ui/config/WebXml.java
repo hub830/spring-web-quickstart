@@ -1,3 +1,4 @@
+package sample.web.ui.config;
 
 
 import org.springframework.boot.builder.SpringApplicationBuilder;

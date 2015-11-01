@@ -57,8 +57,10 @@ configurations {
 
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+	compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	compile("org.hibernate:hibernate-validator")
+	runtime "mysql:mysql-connector-java:5.1.37"
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 

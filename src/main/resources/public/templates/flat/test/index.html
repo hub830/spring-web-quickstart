@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+<script th:src="@{/flat/js/jquery.min.js}"></script>
+<script th:src="@{/flat/js/index.js}"></script>
+</head>
+<body>
+<table>
+ 	
+	
+	<form th:action="@{/test/login}"  method="post">
+		用户名：<input type="text" name="name"/>
+		密码：<input type="password" name="password"/>
+		<input type="submit" value="登录" class="btn"/>
+	</form>
+	<tr>
+		<td>ID</td>
+		<td>用户名</td>
+		<td>密码</td>		
+		<td>操作</td>	
+	</tr>
+	<tr th:each="gaga:${user5}">
+		<td th:text="${gaga.id}"></td>
+		<td th:text="${gaga.name}"></td>
+		<td th:text="${gaga.password}"></td>
+		<td><button class="del"  th:attr="userid=${gaga.id}">删除</button></td>
+		<td><form th:action="@{/test/del}"  method="post">
+		<input type="hidden" name="userid" th:value="${gaga.id}"/>
+		<input type="submit" value="删除" class="btn"/>
+	</form></td>
+	</tr>
+	<tr>
+	<a th:href="@{/test/register}">注册</a>
+	</tr>
+	
+	
+</table>
+</body>
+
+</html>
+

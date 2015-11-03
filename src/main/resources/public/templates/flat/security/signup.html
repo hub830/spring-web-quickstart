@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<!-- Apple devices fullscreen -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<!-- Apple devices fullscreen -->
+	<meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	
+	<title>FLAT - Signup</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="../flat/css/bootstrap.min.css" th:href="@{/flat/css/bootstrap.min.css}"/>
+	<!-- Bootstrap responsive -->
+	<link rel="stylesheet" href="../flat/css/bootstrap-responsive.min.css" th:href="@{/flat/css/bootstrap-responsive.min.css}"/>
+	<!-- icheck -->
+	<link rel="stylesheet" href="../flat/css/plugins/icheck/all.css" th:href="@{/flat/css/plugins/icheck/all.css}"/>
+	<!-- Theme CSS -->
+	<link rel="stylesheet" href="../flat/css/style.css" th:href="@{/flat/css/style.css}"/>
+	<!-- Color CSS -->
+	<link rel="stylesheet" href="../flat/css/themes.css" th:href="@{/flat/css/themes.css}"/>
+
+
+	<!-- jQuery -->
+	<script src="../flat/js/jquery.min.js" th:src="@{/flat/js/jquery.min.js}"></script>
+	
+	<!-- Nice Scroll -->
+	<script src="../flat/js/plugins/nicescroll/jquery.nicescroll.min.js" th:src="@{/flat/js/plugins/nicescroll/jquery.nicescroll.min.js}"></script>
+	<!-- Validation --><!-- 
+	<script src="../flat/js/plugins/validation/jquery.validate.min.js" th:src="@{/flat/js/plugins/validation/jquery.validate.min.js}"></script> -->
+	<script src="../flat/js/plugins/validation/additional-methods.min.js" th:src="@{/flat/js/plugins/validation/additional-methods.min.js}"></script>
+	<script src="../flat/js/plugins/validation/additional-methods.min.js" th:src="@{/flat/js/plugins/validation/localization/messages_zh.min.js}"></script>
+	<!-- icheck -->
+	<script src="../flat/js/plugins/icheck/jquery.icheck.min.js" th:src="@{/flat/js/plugins/icheck/jquery.icheck.min.js}"></script>
+	<!-- Bootstrap -->
+	<script src="../flat/js/bootstrap.min.js" th:src="@{/flat/js/bootstrap.min.js}"></script>
+	<script src="../flat/js/eakroko.js" th:src="@{/flat/js/eakroko.js}"></script>
+
+	<!--[if lte IE 9]>
+		<script src="js/plugins/placeholder/jquery.placeholder.min.js" th:src="@{/flat/js/plugins/placeholder/jquery.placeholder.min.js}"></script>
+		<script>
+			$(document).ready(function() {
+				$('input, textarea').placeholder();
+			});
+		</script>
+	<![endif]-->
+	
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../flat/img/favicon.ico" th:href="@{/flat/img/favicon.ico}" />
+	<!-- Apple devices Homescreen icon -->
+	<link rel="apple-touch-icon-precomposed" href="../flat/img/apple-touch-icon-precomposed.png" th:href="@{/flat/img/apple-touch-icon-precomposed.png}" />
+
+</head>
+
+<body class='login'>
+	<div class="wrapper">
+		<h1><a href="index.html"><img src="../flat/img/logo-big.png" th:src="@{/flat/img/logo-big.png}" alt="" class='retina-ready' width="59" height="49"/>VBILL</a></h1>
+		<div class="login-body ">
+			<h2>创建用户</h2>
+			
+			<form  method='post' class='form-validate' id="signup-form" th:object="${signupCommand}">
+				<div class="control-group">
+					<div class="controls">
+						<input type="text" name='name' placeholder="用户名" class='input-block-level' data-rule-required="true" data-rule-minlength="4"/>
+						<span for="name" class="help-block error" th:each="err : *{#fields.errors('name')}" th:text="${'* ' + err}"></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="text" name='email' placeholder="邮箱" class='input-block-level' data-rule-required="true"  data-rule-email="true"/>
+						<span for="email" class="help-block error" th:each="err : *{#fields.errors('email')}" th:text="${'* ' + err}"></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="pw controls">
+						<input type="password" name="password" placeholder="密码" class='input-block-level' id="input-password" data-rule-required="true"  data-rule-minlength="6"/>
+						<span for="password" class="help-block error" th:each="err : *{#fields.errors('password')}" th:text="${'* ' + err}"></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="pw controls">
+						<input type="password" name="confirm_password" placeholder="重复密码" class='input-block-level' data-rule-required="true"  data-rule-equalTo="#input-password"/>
+					</div>
+				</div>
+				<div class="submit">
+					<div class="remember">
+						<input type="checkbox" name="block" class='icheck-me' data-skin="square" data-color="blue" /> <label for="block">锁定</label>
+					</div>
+					<input type="submit" value="创建用户"  class='btn btn-primary'/>
+				</div>
+				<div class="form-actions">
+				</div>
+			</form>
+			
+		</div>
+	</div>
+</body>
+
+</html>

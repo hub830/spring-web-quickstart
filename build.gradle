@@ -60,6 +60,9 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	compile("org.hibernate:hibernate-validator")
+	compile "org.apache.shiro:shiro-core:1.2.4"
+	compile "org.apache.shiro:shiro-spring:1.2.4"
+	compile "org.apache.shiro:shiro-web:1.2.4"
 	runtime "mysql:mysql-connector-java:5.1.37"
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 }

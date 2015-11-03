@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<!-- Apple devices fullscreen -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<!-- Apple devices fullscreen -->
+	<meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	
+	<title>后台管理系统 - Login</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="../flat/css/bootstrap.min.css" th:href="@{/flat/css/bootstrap.min.css}"/>
+	<!-- Bootstrap responsive -->
+	<link rel="stylesheet" href="../flat/css/bootstrap-responsive.min.css" th:href="@{/flat/css/bootstrap-responsive.min.css}"/>
+	<!-- icheck -->
+	<link rel="stylesheet" href="../flat/css/plugins/icheck/all.css" th:href="@{/flat/css/plugins/icheck/all.css}"/>
+	<!-- Theme CSS -->
+	<link rel="stylesheet" href="../flat/css/style.css" th:href="@{/flat/css/style.css}"/>
+	<!-- Color CSS -->
+	<link rel="stylesheet" href="../flat/css/themes.css" th:href="@{/flat/css/themes.css}"/>
+
+
+	<!-- jQuery -->
+	<script src="../flat/js/jquery.min.js" th:src="@{/flat/js/jquery.min.js}"></script>
+	
+	<!-- Nice Scroll -->
+	<script src="../flat/js/plugins/nicescroll/jquery.nicescroll.min.js" th:src="@{/flat/js/plugins/nicescroll/jquery.nicescroll.min.js}"></script>
+	<!-- Validation -->
+	<script src="../flat/js/plugins/validation/jquery.validate.min.js" th:src="@{/flat/js/plugins/validation/jquery.validate.min.js}"></script>
+	<script src="../flat/js/plugins/validation/additional-methods.min.js" th:src="@{/flat/js/plugins/validation/additional-methods.min.js}"></script>
+	<!-- icheck -->
+	<script src="../flat/js/plugins/icheck/jquery.icheck.min.js" th:src="@{/flat/js/plugins/icheck/jquery.icheck.min.js}"></script>
+	<!-- Bootstrap -->
+	<script src="../flat/js/bootstrap.min.js" th:src="@{/flat/js/bootstrap.min.js}"></script>
+	<script src="../flat/js/eakroko.js" th:src="@{/flat/js/eakroko.js}"></script>
+
+	<!--[if lte IE 9]>
+		<script src="js/plugins/placeholder/jquery.placeholder.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('input, textarea').placeholder();
+			});
+		</script>
+	<![endif]-->
+	
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../flat/img/favicon.ico" th:href="@{/flat/img/favicon.ico}" />
+	<!-- Apple devices Homescreen icon -->
+	<link rel="apple-touch-icon-precomposed" href="../flat/img/apple-touch-icon-precomposed.png" th:href="@{/flat/img/apple-touch-icon-precomposed.png}" />
+
+	
+</head>
+
+<body class='login'>
+	<div class="wrapper">
+		<h1><a href="index.html"><img src="../flat/img/logo-big.png" th:src="@{/flat/img/logo-big.png}" alt="" class='retina-ready' width="59" height="49"/>后台管理系统</a></h1>
+		<div class="login-body">
+			<h2>登陆</h2>
+			<div class="alert alert-success" th:if="${#fields.hasErrors('${loginCommand}')}">
+				<button data-dismiss="alert" class="close" type="button">×</button>
+				<div th:errors="${loginCommand}"> Best check yo self, you're not looking too good.</div>
+			</div>
+			<form method='post'  id="loginForm" name="loginForm" th:action="@{'/login'}"  novalidate="novalidate" autocomplete="off" th:object="${loginCommand}">
+				<div class="control-group">
+					<div class="name controls">
+						<input type="text" name='name' placeholder="用户名" class='input-block-level' value="" data-rule-required="true"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="pw controls">
+						<input type="password" name="password" placeholder="密码" class='input-block-level' value="" data-rule-required="true"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="pw controls">
+						<div><input type="text" name="captcha" placeholder="验证码" class='code input-block-level' style="width:80px;"/>
+						<img id="img_captcha" th:src="@{/captcha}" onclick="javascript:refreshCaptcha();" style="cursor: pointer"/></div>
+					</div>
+				</div>
+				<div class="submit">
+					<!-- <div class="remember">
+						<input type="checkbox" name="remember" class='icheck-me' data-skin="square" data-color="blue" id="remember"/> <label for="remember">自动登陆</label>
+					</div> -->
+					<input type="submit" value="登陆"  class='btn btn-primary'/>
+				</div>
+			</form>
+			<div class="forget">
+				<!-- <a href="#"><span>忘记密码?</span></a> -->
+				<br/>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var _captcha_id = "#img_captcha";
+	function refreshCaptcha() {
+		var _captcha_src = $(_captcha_id).attr("src");
+		
+		$(_captcha_id).attr("src", _captcha_src+"?t=" + Math.random());
+	}
+</script>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+<script th:src="@{/flat/js/jquery.min.js}"></script>
+<script th:src="@{/flat/js/index.js}"></script>
+<script>
+</script>
+</head>
+<body>
+<table>
+	<form th:action="@{/test/new}"  method="post">
+		用户名：<input type="text" name="name"/>
+		密码：<input type="password" name="password"/>
+		年龄：<input type="text" name="age" id="age"/>
+		<input type="submit" value="确定" class="btn"/>
+	</form>
+</table>
+</body>
+
+</html>
+

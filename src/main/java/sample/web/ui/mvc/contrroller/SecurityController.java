@@ -74,6 +74,7 @@ public class SecurityController {
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String showSignupForm(Model model,@Valid @ModelAttribute SignupCommand command, BindingResult errors) {
 		if (errors.hasErrors()) {
+			errors.rejectValue("name", "test.REFUSE", "用户名已存在,请重新输入!");
 			return showSignupForm(model, command);
 		}
 		if (administratorService.findByName(command.getName()) != null) {

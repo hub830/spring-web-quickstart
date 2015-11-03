@@ -10,14 +10,15 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class SignupCommand {
 
-	@Size(max = 6, min = 1, message = "姓名错误！")
-	@Pattern(regexp = "S{1,30}")
+	@NotEmpty
+	@NotNull
+	@Size(max = 16, min = 1, message = "姓名错误！")
 	private String name;
 
 	@NotEmpty
 	@NotNull
 	@Email(message = "邮箱填写错误！")
-	@Pattern(regexp = "w{10,20}")
+	@Size(max = 16, min = 1, message = "{test.REFUSE}")
 	private String email;
 
 	@Pattern(regexp = "[a-zA-z0-9]{6}", message = "密码为6为字母或数字！")
@@ -25,8 +26,7 @@ public class SignupCommand {
 	@NotEmpty(message = "密码不能为空！")
 	private String password;
 
-	@NotNull
-	private Boolean block;
+	private Boolean block = false;
 
 	public String getName() {
 		return name;

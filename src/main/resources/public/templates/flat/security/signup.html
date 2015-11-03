@@ -27,8 +27,8 @@
 	
 	<!-- Nice Scroll -->
 	<script src="../flat/js/plugins/nicescroll/jquery.nicescroll.min.js" th:src="@{/flat/js/plugins/nicescroll/jquery.nicescroll.min.js}"></script>
-	<!-- Validation --><!-- 
-	<script src="../flat/js/plugins/validation/jquery.validate.min.js" th:src="@{/flat/js/plugins/validation/jquery.validate.min.js}"></script> -->
+	<!-- Validation -->
+	<script src="../flat/js/plugins/validation/jquery.validate.min.js" th:src="@{/flat/js/plugins/validation/jquery.validate.min.js}"></script> 
 	<script src="../flat/js/plugins/validation/additional-methods.min.js" th:src="@{/flat/js/plugins/validation/additional-methods.min.js}"></script>
 	<script src="../flat/js/plugins/validation/additional-methods.min.js" th:src="@{/flat/js/plugins/validation/localization/messages_zh.min.js}"></script>
 	<!-- icheck -->
@@ -58,22 +58,22 @@
 	<div class="wrapper">
 		<h1><a href="index.html"><img src="../flat/img/logo-big.png" th:src="@{/flat/img/logo-big.png}" alt="" class='retina-ready' width="59" height="49"/>VBILL</a></h1>
 		<div class="login-body ">
-			<h2>创建用户</h2>
+			<h2>创建用户<p th:text="#{test.WAIT}">BUG</p></h2>
 			
 			<form  method='post' class='form-validate' id="signup-form" th:object="${signupCommand}">
-				<div class="control-group">
+				<div  th:class="${#fields.hasErrors('name')} ? 'control-group error': control-group">
 					<div class="controls">
 						<input type="text" name='name' placeholder="用户名" class='input-block-level' data-rule-required="true" data-rule-minlength="4"/>
-						<span for="name" class="help-block error" th:each="err : *{#fields.errors('name')}" th:text="${'* ' + err}"></span>
+						<span for="name" class="help-block error"  th:if="${#fields.hasErrors('name')}"  th:errors="*{name}"></span>
 					</div>
 				</div>
-				<div class="control-group">
+				<div th:class="${#fields.hasErrors('email')} ? 'control-group error': control-group">
 					<div class="controls">
 						<input type="text" name='email' placeholder="邮箱" class='input-block-level' data-rule-required="true"  data-rule-email="true"/>
 						<span for="email" class="help-block error" th:each="err : *{#fields.errors('email')}" th:text="${'* ' + err}"></span>
 					</div>
 				</div>
-				<div class="control-group">
+				<div th:class="${#fields.hasErrors('password')} ? 'control-group error': control-group">
 					<div class="pw controls">
 						<input type="password" name="password" placeholder="密码" class='input-block-level' id="input-password" data-rule-required="true"  data-rule-minlength="6"/>
 						<span for="password" class="help-block error" th:each="err : *{#fields.errors('password')}" th:text="${'* ' + err}"></span>

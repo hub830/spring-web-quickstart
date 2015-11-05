@@ -31,7 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 /**
  * @author Rob Winch
  */
-@Controller
+//@Controller
 @RequestMapping("/")
 public class MessageController {
 	private final MessageRepository messageRepository;

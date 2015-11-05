@@ -48,10 +48,9 @@ public class SampleRealmWithoutCaptcha extends AuthorizingRealm {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		Administrator administrator = administratorRepository.findByName(token.getUsername());
 		if (administrator != null && administrator.getBlock() == false) {
-//			return new SimpleAuthenticationInfo(administrator.getId(), administrator.getPassword(), ByteSource.Util.bytes(administrator.getName()), getName());
 
 	        SimpleAuthenticationInfo ai = new SimpleAuthenticationInfo(administrator.getId(), administrator.getPassword(), getName());
-//	        ai.setCredentialsSalt(ByteSource.Util.bytes(administrator.getSalt())); //盐是随机数
+	        ai.setCredentialsSalt(ByteSource.Util.bytes(administrator.getSalt())); //盐是随机数 
 	        return ai;
 		} else {
 			return null;

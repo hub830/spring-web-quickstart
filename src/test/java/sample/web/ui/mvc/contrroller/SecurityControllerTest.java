@@ -36,7 +36,7 @@ public class SecurityControllerTest {
 
 	@Test
 	public void test() throws Exception {
-//		testSignup();
+		testSignup();
 		testLogin();
 	}
 
@@ -44,7 +44,7 @@ public class SecurityControllerTest {
 //	@Test
 	public void testSignup() throws Exception {
 		this.mockMvc.perform(
-				post("/signup").param("name", "test021")
+				post("/signup").param("name", "test027")
 				.param("email", "test@test.com")
 				.param("password", "111111")
 				.param("block", "false"))
@@ -57,7 +57,7 @@ public class SecurityControllerTest {
 //	@Test
 	public void testLogin() throws Exception {
 		this.mockMvc.perform(
-				post("/login2").param("name", "test021")
+				post("/login2").param("name", "test027")
 				.param("password", "111111"))
 		.andExpect(status().isFound())
 		.andDo(MockMvcResultHandlers.print());

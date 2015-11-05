@@ -97,7 +97,7 @@ public class SecurityConfig {
 
 		Map<String, String> definitions = shiroFilter.getFilterChainDefinitionMap();
 		definitions.put("/flat/**", "anon");
-//		definitions.put("/test/**", "authc");
+		definitions.put("/test/**", "authc");
 		definitions.put("/login", "anon");
 		definitions.put("/signup", "anon");
 		definitions.put("/captcha", "anon");

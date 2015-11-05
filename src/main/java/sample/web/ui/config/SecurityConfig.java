@@ -1,11 +1,14 @@
 package sample.web.ui.config;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.Filter;
 
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -18,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import sample.web.ui.security.SampleRealm;
+import sample.web.ui.security.SampleRealmWithoutCaptcha;
 
 @Configuration
 public class SecurityConfig {
@@ -25,11 +29,16 @@ public class SecurityConfig {
 
 //	@Autowired
 //	private SampleRealm sampleRealm;
-	
+
 
 	@Bean
 	public  SampleRealm sampleRealm() {
 		return new SampleRealm();
+	}
+
+	@Bean
+	public  SampleRealmWithoutCaptcha sampleRealmWithoutCaptcha() {
+		return new SampleRealmWithoutCaptcha();
 	}
 
 	@Bean
@@ -40,8 +49,12 @@ public class SecurityConfig {
 	@Bean
 	@DependsOn("entityManagerFactory")
 	public WebSecurityManager securityManager() {
+		List<Realm> list = new ArrayList<Realm>();
+		list.add(sampleRealm());
+		list.add(sampleRealmWithoutCaptcha());
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-		securityManager.setRealm(sampleRealm());
+		securityManager.setRealms(list);
+//		securityManager.setRealm(sampleRealmWithoutCaptcha());
 		return securityManager;
 	}
 
@@ -84,12 +97,12 @@ public class SecurityConfig {
 
 		Map<String, String> definitions = shiroFilter.getFilterChainDefinitionMap();
 		definitions.put("/flat/**", "anon");
-//		definitions.put("/test/**", "anon");
+//		definitions.put("/test/**", "authc");
 		definitions.put("/login", "anon");
 		definitions.put("/signup", "anon");
 		definitions.put("/captcha", "anon");
-		definitions.put("/**", "anon");
-//		definitions.put("/**", "authc");
+//		definitions.put("/**", "anon");
+		definitions.put("/**", "authc");
 		shiroFilter.setFilterChainDefinitionMap(definitions);
 
 		return shiroFilter;

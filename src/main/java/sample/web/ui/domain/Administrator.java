@@ -36,6 +36,8 @@ public class Administrator {
 	private Boolean block;
 	/** 密码 */
 	private String password;
+	/** 盐 */
+	private String salt;
 	/** 创建时间 */
 	private Date createtime=new Date();
 	
@@ -114,6 +116,15 @@ public class Administrator {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Column(length = 64, nullable = false)
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

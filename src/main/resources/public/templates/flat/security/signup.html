@@ -58,6 +58,7 @@
 	<div class="wrapper">
 		<h1><a href="index.html"><img src="../flat/img/logo-big.png" th:src="@{/flat/img/logo-big.png}" alt="" class='retina-ready' width="59" height="49"/>VBILL</a></h1>
 		<div class="login-body ">
+			<h2>创建用户</h2>
 			
 			<form  method='post' class='form-validate' id="signup-form" th:object="${signupCommand}">
 				<div  th:class="${#fields.hasErrors('name')} ? 'control-group error': control-group">

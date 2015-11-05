@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import sample.web.ui.domain.Administrator;
 import sample.web.ui.exception.CaptchaException;
@@ -66,6 +67,32 @@ public class SecurityController {
 		}
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "/login2", method = RequestMethod.POST)
+	public String login2(Model model, HttpServletRequest request, @ModelAttribute LoginCommand command, BindingResult errors) {
+		loginValidator.validate(command, errors);
+		if (errors.hasErrors()) {
+			return "fail";
+		}
+		UsernamePasswordToken token = new UsernamePasswordToken(command.getName(), command.getPassword(), command.isRememberMe());
+		try {
+			SecurityUtils.getSubject().login(token);
+		} catch (AuthenticationException e) {
+			log.debug(e.getMessage(),e);
+			errors.reject(null, "密码错误,请重新输入.");
+		}catch (Exception e) {
+			log.debug(e.getMessage(),e);
+			errors.reject(null, "密码错误,请重新输入.");
+		}
+
+		if (errors.hasErrors()) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+
+	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String showSignupForm(Model model, @ModelAttribute SignupCommand command) {
 		return "security/signup";

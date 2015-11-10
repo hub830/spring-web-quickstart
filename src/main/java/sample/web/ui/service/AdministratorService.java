@@ -3,7 +3,6 @@ package sample.web.ui.service;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,8 +58,8 @@ public class AdministratorService {
 	public Administrator createAdmin(String name,String password,String email,boolean block)throws Exception
 	{
 		Administrator admin = new Administrator(name,email,password);
-		Administrator admin2 = findByName(admin.getName());
-		if(admin2 != null)
+		Administrator old = findByName(admin.getName());
+		if(old != null)
 			throw new Exception("用户名已经存在!");
 		admin.setBlock(block);
 		
@@ -68,16 +67,8 @@ public class AdministratorService {
 		ByteSource salt = rng.nextBytes();
 
 		admin.setSalt(salt.toString());
-
-//		  Object hashedPassword=new Sha1Hash("password",salt);
-		
-
 		admin.setPassword( new Sha256Hash(password,salt.toString()).toHex() );
 
-//		String newPassword = new SimpleHash("SHA-256", password, salt.toString()).toHex();
-//		admin.setPassword( new Sha256Hash(password).toHex() );
-		
-//		admin.setPassword(newPassword);
 		return administratorRepository.save(admin);
 	}
 }

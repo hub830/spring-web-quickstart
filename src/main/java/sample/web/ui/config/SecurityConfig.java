@@ -82,7 +82,7 @@ public class SecurityConfig {
 	}
 	*/
 	@Bean
-	@DependsOn("lifecycleBeanPostProcessor")
+	@DependsOn({"lifecycleBeanPostProcessor","requestContextFilter"})
 	public ShiroFilterFactoryBean shiroFilter() {
 		ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
 		shiroFilter.setSecurityManager(securityManager());
@@ -97,7 +97,7 @@ public class SecurityConfig {
 
 		Map<String, String> definitions = shiroFilter.getFilterChainDefinitionMap();
 		definitions.put("/flat/**", "anon");
-		definitions.put("/test/**", "authc");
+		definitions.put("/test/noLogin/**", "anon");
 		definitions.put("/login", "anon");
 		definitions.put("/signup", "anon");
 		definitions.put("/captcha", "anon");

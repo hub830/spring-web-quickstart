@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,10 @@ public class SecurityController {
 		}
 		UsernamePasswordCaptchaToken token = new UsernamePasswordCaptchaToken(command.getName(), command.getPassword(), command.isRememberMe(), command.getCaptcha());
 		try {
+
 			SecurityUtils.getSubject().login(token);
+			Subject subject = SecurityUtils.getSubject();
+			System.out.println(subject.getPrincipal().getClass());
 		} catch (CaptchaException e) {
 			errors.reject(null, "无效的验证码,请重新输入.");
 		} catch (AuthenticationException e) {

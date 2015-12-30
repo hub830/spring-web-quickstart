@@ -54,22 +54,6 @@ public class TestWithloginControllerTest  extends AbstractShiroTest {
 
 			
 			
-
-		    Subject subject = SecurityUtils.getSubject（）；
-		    subject.login（new UsernamePasswordToken（userName, password））；
-
-			ResultActions actions = this.mockMvc.perform( get("/test/noLogin/login"));
-//			ResultActions actions = this.mockMvc.perform(post("/login").param("name", "test027").param("password", "111111"));
-
-	        MvcResult result = actions.andReturn();
-	        
-	        mockSession = (MockHttpSession)result.getRequest().getSession();
-			this.mockMvc.perform(
-					post("/test/login/test1").param("a", "1")
-					.param("b", "1")
-					.param("c", "c").session(mockSession))
-			.andExpect(status().isFound())
-			.andDo(MockMvcResultHandlers.print());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

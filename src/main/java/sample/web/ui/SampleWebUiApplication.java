@@ -16,10 +16,18 @@
 
 package sample.web.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
+
+import sample.web.ui.mvc.JsonViewResolver;
 
 @SpringBootApplication
 public class SampleWebUiApplication {
@@ -38,7 +46,20 @@ public class SampleWebUiApplication {
 			}
 		};
 	}
+	
+	public ContentNegotiatingViewResolver viewResolver(BeanFactory beanFactory) {
+		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+		// Define all possible view resolvers
+		List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
+		resolvers.add(jsonViewResolver());
+		resolver.setViewResolvers(resolvers);
+		return resolver;
+	}
 
+	@Bean
+	public ViewResolver jsonViewResolver() {
+		return new JsonViewResolver();
+	}
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(SampleWebUiApplication.class, args);
 	}

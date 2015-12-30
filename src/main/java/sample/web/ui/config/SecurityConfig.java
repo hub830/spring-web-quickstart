@@ -100,6 +100,7 @@ public class SecurityConfig {
 		definitions.put("/test/noLogin/**", "anon");
 		definitions.put("/login", "anon");
 		definitions.put("/signup", "anon");
+		definitions.put("/signup.*", "anon");
 		definitions.put("/captcha", "anon");
 //		definitions.put("/**", "anon");
 		definitions.put("/**", "authc");

@@ -16,7 +16,7 @@ import com.mysql.fabric.jdbc.FabricMySQLConnection;
 public class EmployeesJdbc3 {
 	public static void main(String args[]) throws Exception {
 
-		String hostname = "192.168.16.25";
+		String hostname = "192.168.16.51";
 		String port = "32274";
 		String database = "test";
 		String user = "root";
@@ -30,8 +30,10 @@ public class EmployeesJdbc3 {
 		}
 
 		// 1. Create database and table for our demo
-		Connection rawConnection = DriverManager.getConnection(baseUrl + "test?fabricServerGroup=my_group&fabricUsername=admin&fabricPassword=admin", user, password);
+		Connection rawConnection = DriverManager.getConnection(baseUrl + "test?fabricServerGroup=group_id-global&fabricUsername=admin&fabricPassword=admin", user, password);
 
+		Statement statement = rawConnection.createStatement();
+		statement.executeUpdate("create table employees (emp_no int not null," + "first_name varchar(50), last_name varchar(50)," + "primary key (emp_no))");
 		
 		FabricMySQLConnection connection = (FabricMySQLConnection) rawConnection;
 

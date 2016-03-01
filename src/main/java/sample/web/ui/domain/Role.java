@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.NotFound;
@@ -104,4 +105,7 @@ public class Role {
 		this.administrators = administrators;
 	}
 
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

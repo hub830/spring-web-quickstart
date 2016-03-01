@@ -1,16 +1,10 @@
 package sample;
 
-
-import com.rabbitmq.client.Channel;  
-import com.rabbitmq.client.Connection;  
-import com.rabbitmq.client.ConnectionFactory;  
-import com.rabbitmq.client.QueueingConsumer;  
-  
 public class Reqv {  
     private final static String QUEUE_NAME = "hello";  
   
     public static void main(String[] argv) throws Exception {  
-  
+  /*
         ConnectionFactory factory = new ConnectionFactory();  
         factory.setHost("192.168.12.10");  
         Connection connection = factory.newConnection();  
@@ -26,6 +20,6 @@ public class Reqv {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();  
             String message = new String(delivery.getBody());  
             System.out.println(" [x] Received '" + message + "'");  
-        }  
+        }  */
     }  
 }  

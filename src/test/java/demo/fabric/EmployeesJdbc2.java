@@ -16,7 +16,7 @@ import com.mysql.fabric.jdbc.FabricMySQLConnection;
 public class EmployeesJdbc2 {
 	public static void main(String args[]) throws Exception {
 
-		String hostname = "192.168.16.25";
+		String hostname = "192.168.16.52";
 		String port = "32274";
 		String database = "test";
 		String user = "root";
@@ -30,7 +30,7 @@ public class EmployeesJdbc2 {
 		}
 
 		// 1. Create database and table for our demo
-		Connection rawConnection = DriverManager.getConnection(baseUrl + "test?fabricServerGroup=my_group&fabricUsername=admin&fabricPassword=admin", user, password);
+		Connection rawConnection = DriverManager.getConnection(baseUrl + "employees?fabricServerGroup=fabric_test1_shard2&fabricUsername=admin&fabricPassword=admin", user, password);
 
 		Statement statement = rawConnection.createStatement();
 		statement.executeUpdate("drop table if exists employees");

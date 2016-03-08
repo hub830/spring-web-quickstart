@@ -12,14 +12,22 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
   
 @RestController
-@RequestMapping("test")
-final class TestController {
+@RequestMapping("/api/datetime/")
+final class DateTimeController {
   
-    @RequestMapping(value = "1")
+    @RequestMapping(value = "date")
     @ResponseBody
-    public String processDate() {
+    public String processDate(@RequestParam("date") LocalDate date) {
+    	System.out.println(date);
     	return "aa";
         //Do stuff
     }
   
+    @RequestMapping(value = "datetime")
+    @ResponseBody
+    public String processDateTime(@RequestParam("datetime") LocalDateTime dateAndTime) {
+    	System.out.println(dateAndTime);
+    	return "aa";
+        //Do stuff
+    }
 }

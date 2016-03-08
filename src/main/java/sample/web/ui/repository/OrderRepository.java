@@ -5,12 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import sample.web.ui.domain.Administrator;
+import sample.web.ui.domain.Order;
 
 @Repository
-public interface  AdministratorRepository extends PagingAndSortingRepository<Administrator, Long>,CrudRepository<Administrator, Long>,JpaSpecificationExecutor<Administrator>{
+public interface  OrderRepository extends PagingAndSortingRepository<Order, Long>,CrudRepository<Order, Long>,JpaSpecificationExecutor<Order>{
 
-//	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	Administrator findByName(String name);
-	
 }

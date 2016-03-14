@@ -74,7 +74,10 @@ dependencies {
 	providedRuntime("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
 	compile("org.hibernate:hibernate-validator")
 	compile "org.apache.commons:commons-lang3:3.4"
+	compile "org.apache.httpcomponents:httpclient:4.5.2"
 	compile "org.projectlombok:lombok:1.16.6"
+	compile "org.htmlparser:htmlparser:1.6"
+	compile 'net.sourceforge.htmlcleaner:htmlcleaner:2.8'
 	compile("org.springframework.boot:spring-boot-devtools")
 	runtime "mysql:mysql-connector-java:5.1.37"
 	testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")

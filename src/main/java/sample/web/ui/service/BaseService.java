@@ -1,6 +1,9 @@
 package sample.web.ui.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ public abstract class BaseService<T> {
 	public Iterable<T> findAll() {
 		return repository.findAll();
 	}
+
 
 	public T findOne(Long id) {
 		return repository.findOne(id);

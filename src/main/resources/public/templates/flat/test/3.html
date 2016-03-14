@@ -1,0 +1,1170 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+	<head>
+		<title>朝阳区房屋登记业务网上预约系统</title>
+		    <meta http-equiv="Content-Type" content="text/html; charset=GBK">
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+	<script type="text/javascript" src="/js/jquery-1.8.2.js"></script>
+	<script type="text/javascript" src="/js/json2.js"></script>
+    <script type="text/javascript" src="/scripts/popAlert.js"></script>
+    <script type="text/javascript" src="/scripts/page.js"></script>
+    <script type="text/javascript" src="/scripts/validation.js"></script>
+    <script type="text/javascript" src="/scripts/calendar.js"></script>
+    <script type="text/javascript" src="/scripts/validator.jsp"></script>
+		<link href="styles/style.css" rel="stylesheet" type="text/css">
+		<link href="css/main.css" rel="stylesheet" type="text/css" />
+		<link href="css/style2.css" rel="stylesheet" type="text/css">
+
+
+		<script>window.document.title = "朝阳区房屋登记业务网上预约系统";</script>
+		<script language="javascript" type="text/javascript" src="js2/top.js"></script>
+		<script language="javascript" type="text/javascript" src="js2/md5.js"></script> <!-- -->
+		<script language="javascript" type="text/javascript" src="js2/check.js"></script>
+		<script language="javascript" type="text/javascript" src="js2/time.js"></script>
+		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="/scripts/jquery.js"></script>    
+        <script type="text/javascript" src="/scripts/verifyCode.js"></script> 
+		<script type="text/javascript" src="jquery-ui/jquery.easyui.min.js"></script>
+		<script language="javascript" type="text/javascript" src="scripts/loadIDCardInfo.js"></script>
+		
+		
+		<script type="text/javascript" src="/scripts/yanzheng.js"></script>
+		<link href="css/yanzheng.css" rel="stylesheet" type="text/css"/>
+		<script type="text/javascript" src="/scripts/personcode.js"></script>
+
+		<style>
+body {
+	background-color: #E6EDF9;
+}
+
+#toptable {
+	width: 778px;
+}
+
+#bottomtable {
+	width: 778px;
+}
+
+#thetime {
+	display: none;
+}
+
+#lbanner {
+	display: none;
+}
+
+#sbanner {
+	background-image: url(images/12.gif);
+	background-repeat: no-repeat;
+	background-position: right top;
+	display: block;
+	height: 113px;
+	float: left;
+}
+
+#snav {
+	background-color: #336699;
+	height: 30px;
+	border-top: 1px solid #ffffff;
+	border-bottom: 1px solid #000000;
+	text-align: center;
+	display: block;
+}
+
+#snav a {
+	color: #ffffff;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.vlline {
+	color: #ffffff;
+	margin: 0px 1px 0px 1px;
+}
+
+.inp_st1 {
+	height: 25px;
+	width: 160px;
+}
+</style>
+
+
+		<script>
+
+//手机号验证
+function checktelephone(m) {
+    if(m.length > 11){
+    return false;
+    }else{
+    var t=/^(13\d{9})|(15\d{9})|(18\d{9})|(0\d{10,11})$/;
+    return t.test(m);
+    }
+ } 
+function checkpwd(value1){
+var c = new RegExp();   
+c = /^[0-9a-zA-Z]*$/g;    
+if(!c.test(value1)){
+   return false; 
+} 
+
+}
+		function cc(obj){
+  var pattern = /[^a-zA-Z]/g;
+  var patternnum = /[^0-9]/g;
+  var val = obj.value;
+  var flag1=false;
+  var flag2=false;
+
+    for(i=0;i < val.length;i++){
+   if(pattern.test(val.charAt(i)))
+   {
+    flag1=true;
+   }
+  }
+
+      for(i=0;i < val.length;i++){
+   if(patternnum.test(val.charAt(i)))
+   {
+    flag2=true;
+   }
+  }
+
+  if(flag1&&flag2){
+
+  }else{
+alert("密码格式错误,从重新输入");
+obj.value="";
+  }
+
+}		
+		
+function getSelectedText (name){
+var obj=document.getElementsByName(name);
+for(i=0;i<obj.length;i++){
+	
+if(obj[i].checked==true){
+return obj[i].value;
+}
+}
+}
+function doSave() {
+	//替换特殊字符及验证数据库关键字
+	checkInput();
+		//验证IP只能预约一次
+		var a_1 = document.getElementById("slwq").value;
+		var a_2 = document.getElementById("wqhth").value;
+		var yybh = a_1+a_2;;
+		document.getElementById("yybh").value=yybh;
+	 var ifflag  =  ifCreateToday();
+        if(ifflag=='0'){
+       
+		}else if(ifflag=='1'){
+			confirm("此IP地址已成功预约，不得重复使用该IP地址。", "确认", "goIndex");			
+			return;
+		}else if(ifflag=='2'){
+			confirm("系统繁忙请您稍后再试。", "确认", "goIndex");	
+			return;
+		}else if(ifflag=='3'){
+			confirm("该业务类型在本周已成功预约，请重新预约。", "确认", "goIndex");	
+			return;
+		}else if(ifflag=='4'){ 
+			confirm("填写的业务编号在本周已成功预约，请重新预约。", "确认", "goIndex");	
+			return; 
+		}
+	var frm = window.document.frm;
+	var valcode = document.getElementById("info").value;
+	var qyh = document.getElementById("p_Appointment_app_3").value;
+	if(qyh.length<7){
+		alert("完税凭证号不得少于7位数字！");
+		return false;
+	}
+	//网签合同号
+	var wq1 = document.getElementById("slwq").value;
+	var wq2 = document.getElementById("wqhth").value;
+/**	if(wq2.length<6){
+		alert("网签合同号至少为6位数字！");
+		return false;
+	}
+*/
+	if(wq1==""||wq1==null){
+		alert("请正确填写网签合同号！");
+		return false;
+	}
+	if(wq2==""||wq2==null){
+		alert("请正确填写网签合同号！");
+		return false;
+	}
+	var wq3 = wq1+wq2;
+	document.getElementById("p_Appointment_app_2").value = wq3;
+	
+	var rv = getSelectedText("sx");
+	document.getElementById("p_Appointment_app_4").value=rv;
+	if("2"==rv){
+		var se8 = document.getElementById("p_Appointment_app_8").value;
+		var se9 = document.getElementById("p_Appointment_app_9").value;
+		var se10 = document.getElementById("p_Appointment_app_10").value;
+	
+		//去空格
+		se8=trimKg(se8);
+		se9=trimKg(se9);
+		se10=trimKg(se10);
+		if(se8==null||se9==null||se10==null||se8==""||se9==""||se10==""){
+			alert("卖方为单位时，卖方委托代理人信息为必填项!");
+			return;
+		}
+		
+		
+	}
+		var rv = getSelectedText("s");
+	document.getElementById("p_Appointment_app_11").value=rv;
+	if("2"==rv){
+		var se15 = document.getElementById("p_Appointment_app_15").value;
+		var se16 = document.getElementById("p_Appointment_app_16").value;
+		var se17 = document.getElementById("p_Appointment_app_17").value;
+		se15=trimKg(se15);
+		se16=trimKg(se16);
+		se17=trimKg(se17);
+		if(se15==null||se16==null||se17==null||se15==""||se16==""||se17==""){
+			alert("买方为单位时，买方委托代理人信息为必填项!");
+			return;
+		}
+		
+		
+	}
+	    var se1 = document.getElementById("p_Appointment_app_1").value;
+		var se2 = document.getElementById("p_Appointment_app_2").value;
+		var se3 = document.getElementById("p_Appointment_app_3").value;
+		var se5 = document.getElementById("p_Appointment_app_5").value;
+		var se6 = document.getElementById("p_Appointment_app_6").value;
+		var se7 = document.getElementById("p_Appointment_app_7").value;
+		var se12 = document.getElementById("p_Appointment_app_12").value;
+		var se13 = document.getElementById("p_Appointment_app_13").value;
+		var se14 = document.getElementById("p_Appointment_app_14").value;
+		se1=trimKg(se1);
+		se2=trimKg(se2);
+		se3=trimKg(se3);
+		se5=trimKg(se5);
+		se6=trimKg(se6);
+		se7=trimKg(se7);
+		se12=trimKg(se12);
+		se13=trimKg(se13);
+		se14=trimKg(se14);
+
+		
+		
+		if(se1==null||se2==null||se3==null||se5==null||se6==null||se7==null||se12==null||se13==null||se14==null||se1==""||se2==""||se3==""||se5==""||se6==""||se7==""||se12==""||se13==""||se14==""){
+		//  if(se2==null||se3==null||se5==null||se6==null||se7==null||se12==null||se13==null||se14==null||se2==""||se3==""||se5==""||se6==""||se7==""||se12==""||se13==""||se14==""){
+			alert("请填写必填项信息!");
+			return;
+		}
+	
+	
+	//document.getElementById("p_Appointment_temp1").value=document.getElementById("p_Appointment_server_id").value;
+	//alert($('#p_Appointment_server_id').text()); 
+	//取SELECT文本值用
+	document.getElementById("server_id").value=document.getElementById("p_Appointment_server_id").value;
+	var service_id = document.getElementById("p_Appointment_server_id").value;
+	var app_date = document.getElementById("p_Appointment_app_date").value;
+
+
+	//var md = document.getElementById("p_Appointment_testmsgtemp").value;
+	//var sss = md5(md);
+	document.getElementById("p_Appointment_testmsg").value = sss;
+	//var app_agree = document.getElementById("agree").checked;
+	if (service_id == null || service_id == "") {
+		alert("【预约业务类型】不能为空！");
+		return false;
+	} else if (app_date == null || app_date == "") {
+		alert("【预约日期】不能为空！");
+		return false;
+	} 
+	//else if (md == null || md == "") {
+	//	alert("个人密码不能为空！");
+	//	return false;
+
+
+
+	//} else{
+	//	frm.submit();
+	//}
+	
+	var app1=frm.p_Appointment_app_1.value;//不动产产权证号
+	var app2=frm.p_Appointment_app_2.value;//网签合同号
+	var app3=frm.p_Appointment_app_3.value;//契税票号
+	var app4=frm.p_Appointment_app_4.value;//卖方是否个人
+	var app5=frm.p_Appointment_app_5.value;//卖方姓名或名称
+	var app6=frm.p_Appointment_app_6.value;//卖方证件类别
+	var app7=frm.p_Appointment_app_7.value;//卖方证件号码
+	
+	var app8=frm.p_Appointment_app_8.value;//卖方委托代理人姓名
+	var app9=frm.p_Appointment_app_9.value;//卖方委托代理人证件类别
+	var app10=frm.p_Appointment_app_10.value;//卖方委托代理人证件号码
+	
+	var app11=frm.p_Appointment_app_11.value;//买方是否个人
+	var app12=frm.p_Appointment_app_12.value;//买方姓名或名称
+	var app13=frm.p_Appointment_app_13.value;//买方证件类别
+	var app14=frm.p_Appointment_app_14.value;//买方证件号码
+	
+	var app15=frm.p_Appointment_app_15.value;//买方委托代理人姓名
+	var app16=frm.p_Appointment_app_16.value;//买方委托代理人证件类别
+	var app17=frm.p_Appointment_app_17.value;//买方委托代理人证件号码
+
+	
+	var phonenumber=frm.p_Appointment_phonenumber.value;
+	var testmsg=frm.p_Appointment_testmsgtemp.value;
+	
+		
+	//验证证件号码是否重复
+	if(ifChongfu(app7,app10,app14,app17)==false){
+		alert("证件号码不能重复！");
+	   return false;
+   }
+	
+
+	if(checktelephone(phonenumber)==false){
+		alert("请填写正确的手机号！");
+		return false;
+	}else if((testmsg==null||trimKg(testmsg)==""||trimKg(testmsg).length<6)){
+		alert("请输入6位个人密码,不能包含空格！");
+		return false;
+	}//老验证码验证（js验证）
+	else if(validateCheckCode()==false){
+		alert("请输入正确的验证码！");
+		return false;
+	//新验证码验证（java验证）
+	/*else if(valcode==0){
+		alert("请输入正确的验证码！");
+		return false;*/
+	}else if("1"==validateCheckCodeByFront()){
+		alert("请输入正确的验证码！");
+		return ;
+	}else{
+
+		  if(app6=='sfz'){
+		   if(isApply2(app7)==false){
+			   return false;
+		   }
+		   
+	      }
+		  if(app6=='jgz'||app6=='gaz'||app6=='hz'||app6=='qt'||app6=='zzjgdm'||app6=='yyzzh'){
+			if(isApply(app7)==false){
+				return false;
+			}
+		  }
+		  if(app9=='sfz'){
+		   if(isApply2(app10)==false){
+			   return false;
+		   }
+	      }
+		  if(app9=='jgz'||app9=='gaz'||app9=='hz'||app9=='qt'||app9=='zzjgdm'||app9=='yyzzh'){
+			if(isApply(app10)==false){
+				return false;
+			}
+		  }
+		  if(app13=='sfz'){
+		    if(isApply2(app14)==false){
+		    	return false;
+		    }
+	      }
+		  if(app13=='jgz'||app13=='gaz'||app13=='hz'||app13=='qt'||app13=='zzjgdm'||app13=='yyzzh'){
+			if(isApply(app14)==false){
+				return false;
+			}
+		  }
+		  
+		  if(app16=='sfz'){
+		   flag4= isApply2(app17);
+	      }
+		  if(app16=='jgz'||app16=='gaz'||app16=='hz'||app16=='qt'||app16=='zzjgdm'||app16=='yyzzh'){
+			flag4= isApply(app17);
+		  }
+		  
+			var md = document.getElementById("p_Appointment_testmsgtemp").value;
+		    var mdnext = document.getElementById("p_Appointment_testmsgtempnext").value;
+		    if(md!=mdnext){
+		    	alert("两次输入的个人密码不一致，请重新输入！");
+		    }else{
+		     var sss = md5(md);
+	        document.getElementById("p_Appointment_testmsg").value = sss;
+	        document.getElementById("p_Appointment_app_date").value=app_date; 
+	        frm.p_Appointment_app_person_button.disabled=true;
+	        frm.submit();
+		    }
+
+	}
+	
+}
+function validateCheckCode(){
+	var code = $("input[name='j_captcha_response']").val();
+	if("" == code || code.length != 2){
+		return false ;
+	}
+	return true ;
+}
+function doShow() {
+	var frm = window.document.frm;
+	var service_id = document.getElementById("p_Appointment_server_id").value;
+	if (service_id == null || service_id == "") {
+		alert("请选择预约业务类型！");
+
+		return false;
+	} else {
+		document.getElementById("service_ne").value = document
+				.getElementById("p_Appointment_server_id").value;//保存选择的类型
+		document.getElementById("service_date").value = document
+				.getElementById("p_Appointment_app_date").value;
+		document.getElementById("service_names").value = document
+				.getElementById("p_Appointment_app_person").value;
+		document.getElementById("service_card").value = document
+				.getElementById("p_Appointment_app_person_card").value;
+		frm.m.value = "edit";
+		frm.submit();
+	}
+}
+function doReset() {
+	var frm = window.document.frm;
+	frm.reset();
+}
+function getCheckCode(){
+	var flage=0;
+	$.ajax( {
+		url : 'yyfh.appointment.do',
+		async:false,
+		type:"POST", 			
+		data:{m:"getCheckCode"},
+		dataType:"text",
+		success : function(data) {
+			var result=data.replace(/[\r\n]/g,"");
+			if("" != result){
+				$("#pic").attr("src","data:image/jpeg;base64," + result);
+			}
+		},
+		error : function(data) {
+			alert("请求超时!")
+			   flage=0;
+		}
+	})
+}
+function validateCheckCodeByFront(){
+	var checkcode = $("input[name='j_captcha_response']").val();
+	var flage=0;
+	$.ajax( {
+		url : 'yyfh.appointment.do',
+		async:false,
+		type:"POST", 			
+		data:{m:"validateCheckCodeByFront",checkCode:checkcode},
+		dataType:"text",
+		success : function(data) {
+			var result=data.replace(/[\r\n]/g,"");
+			if("1" == result){
+				flage = "1";
+			}
+		},
+		error : function(data) {
+			alert("请求超时!")
+			   flage="0";
+		}
+	})
+	return flage  ;
+}
+
+//ajax，获取预约日时段是否已满
+function kyys(obj){
+	var code = obj.value+"";
+	if(code==""){
+		$("#tr").css('display','none');
+		$("#am").attr('checked',false);
+		$("#am").attr('disabled',true);
+		$("#pm").attr('checked',false);
+		$("#pm").attr('disabled',true);
+		return;
+	}
+	$.ajax( {
+		url : 'yyfh.appointment.do',
+		async:false,
+		type:"post", 			
+		data:{m:"kyys",code:code},
+		dataType:"text",
+		success : function(data) {
+			$("#tr").css('display','block');
+			var strs = data.split(",");
+			if(parseInt(strs[1]+"")>0){
+						$("#span_pm").show();
+						$("#pm").attr('checked',true);
+						$("#pm").attr('disabled',false);
+						$("#pmsy").html("(目前剩余"+strs[1]+"个号)");
+					}else{ 
+						$("#span_pm").hide(); 
+						//$("#pm").attr('checked',false);
+						//$("#pm").attr('disabled',true);
+						//$("#pmsy").html("(目前剩余0个号)");
+					}
+					if(parseInt(strs[0]+"")>0){
+						$("#span_am").show();
+						$("#am").attr('checked',true);
+						$("#am").attr('disabled',false);
+						$("#amsy").html("(目前剩余"+strs[0]+"个号)");
+					}else{
+						$("#span_am").hide();
+						//$("#am").attr('checked',false);
+						//$("#am").attr('disabled',true);
+						//$("#amsy").html("(目前剩余0个号)");
+			}
+		}
+	})
+}
+</script>
+		<script language="javascript" type="text/javascript">
+
+
+
+//置灰按钮  保存
+function setButtonGray(tag, key) {
+	var element = $("[name='" + tag + key + "']");
+	var elementType = $(element).attr("type");
+	if ("button" == elementType) {
+		$("input[name='" + tag + key + "']").each(function(i, data) {
+			$(data).attr("disabled", true);
+		});
+	}
+}
+//取消置灰按钮  保存
+function setButtonDo(tag, key) {
+	var element = $("[name='" + tag + key + "']");
+	var elementType = $(element).attr("type");
+	if ("button" == elementType) {
+		$("input[name='" + tag + key + "']").each(function(i, data) {
+			$(data).attr("disabled", false);
+		});
+	}
+}
+//控制输入的姓名长度
+function fucCheckLength() { 
+  var strTemp = document.getElementById("p_Appointment_app_person").value;
+  var i,sum;
+  sum=0;
+  for(i=0;i<strTemp.length;i++) { 
+    if ((strTemp.charCodeAt(i)>=0) && (strTemp.charCodeAt(i)<=255)) {
+      sum=sum+1;
+    }else {
+      sum=sum+2;
+    }
+  }
+ 	if(sum>20){
+  	alert("您输入的姓名太长！");
+	}
+}
+
+
+</script>
+
+	</head>
+	<script type="text/javascript" language="Javascript1.1"> 
+
+<!-- Begin 
+
+     var bCancel = false; 
+
+    function validateForm(form) {                                                                   
+        if (bCancel) 
+      return true; 
+        else 
+       return validateDate(form); 
+   } 
+
+    function DateValidations () { 
+     this.aa = new Array("p_Appointment_app_date", "预约时间 不是有效日期格式。", new Function ("varName", "this.datePattern='yyyy-MM-dd';  return this[varName];"));
+     this.ab = new Array("p_Appointment_create_date", "预约单创建时间 不是有效日期格式。", new Function ("varName", "this.datePattern='yyyy-MM-dd';  return this[varName];"));
+     this.ac = new Array("p_Appointment_get_date", "发号时间 不是有效日期格式。", new Function ("varName", "this.datePattern='yyyy-MM-dd';  return this[varName];"));
+    } 
+
+
+//End --> 
+</script>
+
+
+	<body topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" >
+		<form name="frm" action="yyfh.appointment.do" method="post"
+			onSubmit="return validateForm(this);">
+			<input type="hidden" name="token"
+				value="">
+			<input type="hidden" name="m" value="saveAdd">
+			<input type="hidden" name="result" id="result" value="">
+			<input type="hidden" name="server_id" id="server_id" value="">
+			<input type="hidden" name="serviceid" id="serviceid" value="297edff83cf6b763013cf634a2f80006">
+			<input type="hidden" name="service_date" id="service_date" value="">
+			<input type="hidden" name="service_names" id="service_names" value="">
+			<input type="hidden" name="service_card" id="service_card" value="">
+			<input type="hidden" id="info" name="info" value="0">
+			<input type="hidden" name="service_ne" id="service_ne" value="">
+			<input type="hidden" name="p_Appointment_temp1" id="p_Appointment_temp1" value="">
+			<input type="hidden" name="yybh" id="yybh" value="">
+
+			
+			
+			
+			
+			
+			
+
+			<table width="778" border="0" align="center" cellpadding="2" cellspacing="2" bgcolor="#FFFFFF">
+  <tr>
+    <td height="20" bgcolor="#e8e8e8"><span class="14white" style="letter-spacing:1px;">您当前位置：填写预约单</td>
+  </tr>
+  <tr>
+    <td><table cellspacing="0" cellpadding="0" width="100%" bgcolor="#ffffff" 
+            border="0"   >
+      <tbody>
+        <tr>
+          <td width="31" rowspan="3"></td>
+          <td width="1" bgcolor="#b5b5b5"></td>
+          <td valign="top" width="714">
+		    <table cellspacing="0" cellpadding="0" width="100%" border="0">
+              <tbody>
+                <tr>
+                  <td bgcolor="#b5b5b5" height="1"></td>
+                </tr>
+              </tbody>
+             </table>
+              <table cellspacing="0" cellpadding="0" width="100%" border="0"class="list1">
+                <tbody>
+                  <tr>
+                    <td width="30">&nbsp;</td>
+                    <td width="654" align="middle" valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" id="contable">
+                        <tr>
+                          <td align="center" style="vertical-align: middle" class="contitle"><font style="font-size:30px;line-height
+:30px"><strong>填写预约信息</strong></font></td>
+                        </tr>
+                        <tr>
+                          <td align="left" height="10"></td>
+                        </tr>						
+                        <tr>
+                         <td align="left" class="context">
+               <table width="100%" border="0" cellspacing="1" cellpadding="0" >
+                
+                <tr>
+					<td width="23%" align="right">预约业务类型：</td>
+                    <td width="30%"> 
+						3.二手房、非法院拍卖
+						<input type="hidden" id="p_Appointment_server_id" value="297edff83cf6b763013cf634a2f80006" >
+                    </td>
+                </tr>
+               
+             	<tr>
+                    <td width="45%" align="right">已约满日期：</td>
+                    <td width="55%">
+																			<font color="red" size="2">
+					
+						2016-03-07;
+					
+						2016-03-08;
+					
+						2016-03-09;
+					
+						2016-03-10;
+					
+						2016-03-11;
+					
+						2016-03-14;
+					
+						2016-03-15;
+					
+						2016-03-16;
+					
+						2016-03-17;
+					
+						2016-03-18;
+					
+						2016-03-21;
+					
+						2016-03-22;
+					
+						2016-03-23;
+					
+						2016-03-24;
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+					</font>
+					  </td>
+                    <td  align="right"> </td>
+                    <td> </td>
+				</tr> 
+				<tr>
+                    <td width="45%" align="right">预约日期：</td>
+                    <td width="55%">
+                    
+                <select name="p_Appointment_app_date"
+id="p_Appointment_app_date" style="width: 155px" onchange="kyys(this)">
+	<option value="">
+		-- 请选择 --
+	</option>
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		<option  value="2016-03-25"
+		>
+		2016-03-25
+		
+		</option>
+		
+		
+	
+		<option  value="2016-03-28"
+		>
+		2016-03-28
+		
+		</option>
+		
+		
+	
+		<option  value="2016-03-29"
+		>
+		2016-03-29
+		
+		</option>
+		
+		
+	
+		<option  value="2016-03-30"
+		>
+		2016-03-30
+		
+		</option>
+		
+		
+	
+		<option  value="2016-03-31"
+		>
+		2016-03-31
+		
+		</option>
+		
+		
+</select><font color="red">*</font>
+					  </td>
+                    <td  align="right"> </td>
+                    <td>
+                    
+                     </td>
+				</tr> 
+				<!-- begin append by zhanghaishuai -->
+				<!-- 添加自选上下午预约功能 -->
+				<tr id = "tr" style="display: none;">
+					<td width="45%" align="right" style="vertical-align: middle;">预约时间段：</td>
+                    <td width="55%">
+                    <span id="span_am">
+                    <input disabled="disabled" id="am" type="radio" name="amorpm" value="1"/>上午
+                    &nbsp;&nbsp;
+                    <span style="color: red;" id = "amsy"></span><br/></span> 
+                    
+                    <span id="span_pm">
+                    <input disabled="disabled" id="pm" type="radio" name="amorpm" value="2"/>下午
+                    &nbsp;&nbsp;
+                    <span style="color: red;" id = "pmsy"></span></span>
+                    </td>
+				</tr>
+				<!-- end append by zhanghaishuai -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+																		<tr>
+																			<td align="right">
+																				不动产产权证号：
+																			</td>
+																			<td>
+																				<!-- <input type="text" name="p_Appointment_app_1"
+																					maxlength="100" value="">
+																				<font color="red">*</font> -->
+																				<table>
+																					<tr>
+																						<td>
+																							<input type="text" name="p_Appointment_app_1"
+																					maxlength="30" value=""><font color="red">*</font>
+																						</td>
+<!--																						<td align="left">-->
+<!--																							<font color="red">*</font> <font size="2">一套房屋多个房屋所有权证，只录入其一。</font>-->
+<!--																						</td>-->
+																					</tr>
+																				</table>
+																			</td>
+																		</tr>
+																		<tr>
+																						<td width="100%" align="left" colspan='2'>
+																							 <!--&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <font size="2">(一套房屋多个房屋所有权证，只录入其一)<br/>-->
+																							 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <font size="2">(不动产产权证号严格按照网签合同填写)
+																							 </font>
+																						</td>
+																					</tr>
+																		
+																		
+																		<tr>
+																		<tr>
+																			<td align="right">
+																				网签合同号：
+																			</td>
+																			<td>
+																				<!-- <input type="text" name="p_Appointment_app_2"
+																					maxlength="100" value=""> -->
+
+																				<select name="slwq" id="slwq" style="width: 70px">
+																					<option value="">
+																						=请选择=
+																					</option>
+																					<option value="C">
+																						C
+																					</option>
+																					<option value="CW">
+																						CW
+																					</option>
+																				</select>
+																				<input style="width: 78px" type="text" value="" maxlength="30" id="wqhth" onKeyUp="value=value.replace(/[^0123456789]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^0123456789]/g,''))" >
+																				<input type="hidden" value="" id="p_Appointment_app_2" name="p_Appointment_app_2" >
+																				<font color="red">*</font>
+																			</td>
+																		</tr>
+		 <tr>
+		<td align="right">完税凭证号：</td><td><input type="text" name="p_Appointment_app_3" maxlength="50" value="" onKeyUp="value=value.replace(/[^0123456789]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^0123456789]/g,''))"><font color="red">*</font></td>
+		</tr>
+		 <tr>	<td align="right">卖方是否个人：</td><td>  是<input type="radio" name="sx" value="1" checked onclick="clearSel1('p_Appointment_app_6','mfwtdlrxm','mfwtdlrzjlx','mfwtdlrzjhm');" >否<input type="radio" name="sx"  value="2" onclick="clearSel2('p_Appointment_app_6','mfwtdlrxm','mfwtdlrzjlx','mfwtdlrzjhm');" ></td>
+			<input type="hidden" id="p_Appointment_app_4" name="p_Appointment_app_4" value=""/>
+			</tr>
+		 <tr>
+		 
+		<td align="right">卖方姓名或名称：</td><td><input type="text" name="p_Appointment_app_5" maxlength="20" value=""><font color="red">*</font></td>
+		</tr>
+		<tr>
+				<td align="right">卖方证件类别：</td><td><select name="p_Appointment_app_6" id="p_Appointment_app_6">
+                           		<option value="">==请选择==</option>
+                           		<option value="sfz">身份证</option>
+                                  <option value="qt">其他身份证明</option>
+                           				</select> <font color="red">*</font></td>
+                           					</tr>
+     <tr>
+         	<td align="right"  >卖方证件号码：</td><td> <input type="text" name="p_Appointment_app_7" maxlength="50" value=""> <font color="red">*</font></td>
+		</tr>
+		 <tr>
+		<td align="right">卖方委托代理人姓名：</td><td><input type="text" name="p_Appointment_app_8" maxlength="20" value=""><font color="red" id="mfwtdlrxm" style="display: none">*</font></td>
+		</tr>
+		<tr>
+				<td align="right">卖方委托代理人证件类别：</td><td><select name="p_Appointment_app_9">
+                           		<option value="">==请选择==</option>
+                           		<option value="sfz">身份证</option>
+                           		
+                           		<!-- <option value="gaz">港澳证</option>
+                           		<option value="hz">护照</option> -->
+                           		<option value="qt">其他身份证明</option>
+                           		
+                           				</select> 
+                           				<font color="red" id="mfwtdlrzjlx" style="display: none">*</font>
+                           				</td>
+                           			</tr>		
+                           			
+  <tr>
+       <td align="right"  >卖方委托代理人证件号码：</td><td> <input type="text" name="p_Appointment_app_10" maxlength="50" value=""> <font color="red" id="mfwtdlrzjhm" style="display: none">*</font></td>
+		</tr>
+		 <tr>	<td align="right">买方是否个人：</td><td>  是<input type="radio" name="s" value="1" checked onclick="clearSel1('p_Appointment_app_13','mfwtdlrxm1','mfwtdlrzjlb1','mfwtdlrzjhm1');" >否<input type="radio" name="s"  value="2" onclick="clearSel2('p_Appointment_app_13','mfwtdlrxm1','mfwtdlrzjlb1','mfwtdlrzjhm1');" ></td>
+			<input type="hidden" id="p_Appointment_app_11" name="p_Appointment_app_11" value=""/>
+			</tr>
+		 <tr>
+		<td align="right">买方姓名或名称：</td><td><input type="text" name="p_Appointment_app_12" maxlength="20" value=""><font color="red">*</font></td>
+		</tr>
+		<tr>
+				<td align="right">买方证件类别：</td><td><select name="p_Appointment_app_13" id="p_Appointment_app_13">
+                           		<option value="">==请选择==</option>
+                           		<option value="sfz">身份证</option>
+                           		
+                           		<!-- <option value="gaz">港澳证</option>
+                           		<option value="hz">护照</option> -->
+                           		<option value="qt">其他身份证明</option>
+                           				</select><font color="red">*</font> </td>
+                           			</tr>		
+                           			
+  <tr>
+       <td align="right"  >买方证件号码：</td><td> <input type="text" name="p_Appointment_app_14" maxlength="50" value=""><font color="red">*</font> </td>
+		</tr>
+		 <tr>
+		<td align="right">买方委托代理人姓名：</td><td><input type="text" name="p_Appointment_app_15" maxlength="20" value=""><font color="red" id="mfwtdlrxm1" style="display: none">*</font></td>
+		</tr>
+		<tr>
+				<td align="right">买方委托代理人证件类别：</td><td><select name="p_Appointment_app_16" >
+                           		<option value="">==请选择==</option>
+                           		<option value="sfz">身份证</option>
+                           		
+                           		<!-- <option value="gaz">港澳证</option>
+                           		<option value="hz">护照</option> -->
+                           		<option value="qt">其他身份证明</option>
+                           		
+                           				</select>
+                           				<font color="red" id="mfwtdlrzjlb1" style="display: none">*</font>
+                           				 </td>
+                           			</tr>		
+                           			
+  <tr>
+       <td align="right"  >买方委托代理人证件号码：</td><td> <input type="text" name="p_Appointment_app_17" maxlength="50" value=""><font color="red" id="mfwtdlrzjhm1" style="display: none">*</font></td>
+		</tr>
+		<tr>
+
+																			<td align="right">
+																				预约人手机号：
+																			</td>
+																			<td colspan="3">
+																				<input name="p_Appointment_phonenumber" type="text"
+																					class="inp_st1" style="width: 150px" value=""
+																					maxlength="15" />
+																				<font color="red">*</font>
+																			</td>
+																		</tr>
+			  <tr>
+																			<td align="right">
+																				请设定个人密码：
+																			</td>
+																			<td colspan="3">
+																				<input name="p_Appointment_testmsgtemp"
+																					id="p_Appointment_testmsgtemp" type="password"
+																					class="inp_st1" style="width: 150px" value=""
+																					maxlength="6" onKeyUp="value=value.replace(/[^0123456789]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^0123456789]/g,''))" />
+																				<span style="font-size: 12px; position: absolute"><font
+																					color="red">*</font>密码为六位数字,不包含空格</span>
+																			</td>
+																			<input type="hidden" id="p_Appointment_testmsg"
+																				maxlength="6" name="p_Appointment_testmsg" value="" />
+																		</tr>
+																		<tr>
+																			<td align="right">
+																				请再次确认个人密码：
+																			</td>
+																			<td colspan="3">
+																				<input name="p_Appointment_testmsgtempnext"
+																					id="p_Appointment_testmsgtempnext" type="password"
+																					class="inp_st1" style="width: 150px" value=""
+																					maxlength="6" />
+																				<font color="red">*</font>
+																			</td>
+
+																		</tr>
+                <tr>												
+					<td width="50%" align="right">
+					请输入验证码：
+					</td>
+					<td width="50%" align="left">
+					<input id="j_captcha_response"  name="j_captcha_response" type="text"  value="" /><font color="red">*</font>
+					<img id="pic" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAoAHgDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDqvD+l
++H4vCemfZvD1mxeC1mVmgBadgoCSkhAxYbzhyFJLHjJIpI/DPhZZvNg8O6aFZgzxfYIpTgE9NwBA
+5AIAHrntU/h5dTbwx4bZI7Y2z2Vu1rFJcOTGqwjG4qgy2COe5xjjioNVvJ9Kmkv9SvrNLNGMe943
+Id2ODtTduYqVI9Rg59aVKP8AM9Pv/wA/6/DGVGatyu/9ei9N/vNS5utNubaOFtIs1ezjaO0ka1Rv
+sy4CkInO3gYwOOAMHGKqLoPhWC0eI+DtKDFSImS0ikYE5IJZ19xzgj2prX9hrWtzWtrL9muIAha1
+mh+z7c4xnzPmPOCNqdWXPXNXn06Y3Cx/bpEugFJitFR2XPViCAy8HuO46k4qZ0acpLl066X/AOCN
+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
+uW6NI6q5/9k=" width="100" height="40" /><font size="2" color="green"><a href="#" onclick="getCheckCode()">换一张</a></font>
+					<!--<input style="width: 68px" id="veryCode"  type="text" name="veryCode" /> 
+																			        	
+					<a href="#"><img id="imgObj"  src="verifyimage.create" onclick="changeImg()" border="0"/></a>  
+					<span id="change" onclick="changeImg()"><a href="#">换一张</a></span>-->
+					</td>
+				</tr>
+				<tr>
+					<td width="50%" align="center" colspan="2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;（请输入验证码中的汉字!）</td>
+				</tr>
+                <tr>
+                	<td colspan="2" align="left">
+                		<font color="red"><br>重要提示：<br>
+                		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、请牢记个人密码否则将无法查询预约信息；<br>
+                		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、上述标记“&nbsp;*&nbsp;”的为必填项，请仔细填写并核对，若所填写预约信息与申请业务信息不符，请及时修改。提交后，将无法修改，只能取消预约重新申请。<br>
+                		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、手机号请如实填写，否则不能获取短信提示服务。（短信提示服务暂缓开通）；
+                		</br></font></td>
+  
+                </tr>
+<!--                <tr >-->
+<!--                    <td colspan="4" style="padding-left:15px;padding-right:15px "></br></br><font size="2"> &nbsp;&nbsp;<font color="red">*</font>&nbsp;重要提示：上述标记“*”的为必填项，请仔细填写并核对，若所填写预约信息与申请业务信息不符，请及时修改，再提交。提交后，将无法修改，只能取消预约重新申请。在办理业务前两天内不能取消预约。</br></td>-->
+<!--                  -->
+<!--                </tr>-->
+      
+             </table>
+             
+		<p align="center">
+																		<input name="p_Appointment_app_person_button"
+																			type="button" onclick="doSave()" value=" 提 交 " />
+																		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																		<input type="button"
+																			onclick="window.location.href='index.jsp';"
+																			value=" 返 回 " />
+																	</p>
+						 </td>
+                        </tr>
+                        <tr>
+                          <td align="left">
+                        </tr>
+					</table></td>
+                    <td width="30">&nbsp;</td>
+                  </tr>
+                </tbody>
+            </table></td>
+          <td width="1" bgcolor="#b5b5b5"></td>
+          <td valign="top" width="3" bgcolor="#dedede" rowspan="3">
+		  <table cellspacing="0" cellpadding="0" width="100%" 
+                  bgcolor="#ffffff" border="0">
+              <tbody>
+                <tr>
+                  <td height="5"></td>
+                </tr>
+              </tbody>
+          </table></td>
+          <td width="32" rowspan="3"></td>
+        </tr>
+        <tr>
+          <td width="716" bgcolor="#b5b5b5" colspan="3" height="1"></td>
+        </tr>
+        <tr>
+          <td align="left" width="716" bgcolor="#e0e0e0" colspan="3" height="3">
+		  <table height="3" cellspacing="0" cellpadding="0" width="5" 
+                    border="0">
+              <tbody>
+                <tr>
+                  <td 
+            bgcolor="#ffffff"></td>
+                </tr>
+              </tbody>
+          </table></td>
+        </tr>
+      </tbody>
+    </table></td>
+  </tr>
+</table>
+			<script language="javascript" type="text/javascript"
+				src="js/bottom.js">
+</script>
+		</form>
+	</body>
+</html>

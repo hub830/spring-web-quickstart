@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<!-- Apple devices fullscreen -->
+<meta names="apple-mobile-web-app-status-bar-style"
+	content="black-translucent" />
+
+<script src="/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="/js/semantic.min.js" th:src="@{/js/semantic.min.js}"></script>
+<link rel="stylesheet" type="text/css" class="ui" href="/css/semantic.min.css" th:href="@{/css/semantic.min.css}" />
+<title>FLAT -</title>
+
+</head>
+
+<body>
+
+	<table class="ui celled padded table">
+		<thead>
+			<tr>
+				<th class="single line">ID</th>
+				<th>产权证号</th>
+				<th>网签合同号</th>
+				<th>完税凭证号</th>
+				<th>卖方姓名</th>
+				<th>买方姓名</th>
+				<th>验证码</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="item,status:${list}">
+				<td th:text="${item.id}">					
+				</td>
+				<td class="single line" th:text="${item.p_Appointment_app_1}">
+				</td>
+				<td th:text="${item.slwq+item.wqhth}"></td>
+				<td th:text="${item.p_Appointment_app_3}"></td>
+				<td th:text="${item.p_Appointment_app_5}"></td>
+				<td th:text="${item.p_Appointment_app_12}"></td>
+				<td class="right aligned" >
+					<img class="ui small image" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAoAHgDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDqvD+l
++H4vCemfZvD1mxeC1mVmgBadgoCSkhAxYbzhyFJLHjJIpI/DPhZZvNg8O6aFZgzxfYIpTgE9NwBA
+5AIAHrntU/h5dTbwx4bZI7Y2z2Vu1rFJcOTGqwjG4qgy2COe5xjjioNVvJ9Kmkv9SvrNLNGMe943
+Id2ODtTduYqVI9Rg59aVKP8AM9Pv/wA/6/DGVGatyu/9ei9N/vNS5utNubaOFtIs1ezjaO0ka1Rv
+sy4CkInO3gYwOOAMHGKqLoPhWC0eI+DtKDFSImS0ikYE5IJZ19xzgj2prX9hrWtzWtrL9muIAha1
+mh+z7c4xnzPmPOCNqdWXPXNXn06Y3Cx/bpEugFJitFR2XPViCAy8HuO46k4qZ0acpLl066X/AOCN
+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
+uW6NI6q5/9k="/>
+				</td>
+				<td class="right aligned">
+					<div class="ui input">
+					  <input type="text" placeholder="验证码" />
+					</div>
+					<button class="ui primary button">获取验证码 </button>
+					<button class="ui primary button">申请 </button>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+</body>
+
+</html>

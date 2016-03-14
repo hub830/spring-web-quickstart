@@ -4,9 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -24,7 +21,7 @@ public class Proxy extends AutoIDEntity{
 	/** IP地址 */
 	private String ip;
 	/** 端口 */
-	private String port;
+	private Integer port;
 	/** 使用次数 */
 	private Integer times;
 	/** 是否可用 */
@@ -39,7 +36,7 @@ public class Proxy extends AutoIDEntity{
 		this.id = id;
 	}*/
 
-	public Proxy(String ip, String port) {
+	public Proxy(String ip, Integer port) {
 		super();
 		this.ip = ip;
 		this.port = port;
@@ -73,11 +70,11 @@ public class Proxy extends AutoIDEntity{
 	@Column(nullable = false)
 	@NotNull
 	@NotEmpty
-	public String getPort() {
+	public Integer getPort() {
 		return port;
 	}
 
-	public void setPort(String port) {
+	public void setPort(Integer port) {
 		this.port = port;
 	}
 

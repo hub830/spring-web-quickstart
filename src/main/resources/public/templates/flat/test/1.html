@@ -1,0 +1,268 @@
+<HTML><HEAD><TITLE>北京市朝阳区房屋管理局业务网上预约窗口</TITLE>
+<META content="text/html; charset=GBK" http-equiv="Content-Type">
+<META content="0" http-equiv="Expires">
+<META content="no-cache" http-equiv="Cache-Control">
+<META content="no-cache" http-equiv="Pragma">
+<LINK rel="stylesheet" type="text/css" 
+href="北京市朝阳区房屋管理局业务网上预约窗口_files/style.css">
+<LINK rel="stylesheet" type="text/css" href="北京市朝阳区房屋管理局业务网上预约窗口_files/main.css">
+<LINK rel="stylesheet" type="text/css" href="北京市朝阳区房屋管理局业务网上预约窗口_files/style2.css">
+<SCRIPT language="javascript" type="text/javascript" 
+src="北京市朝阳区房屋管理局业务网上预约窗口_files/top.js"></SCRIPT>
+
+<SCRIPT type="ext/javascript"  src="北京市朝阳区房屋管理局业务网上预约窗口_files/jquery-1.4.4.min.js"></SCRIPT>
+
+<SCRIPT type="text/javascript"  src="北京市朝阳区房屋管理局业务网上预约窗口_files/yanzheng.js"></SCRIPT>
+<LINK rel="stylesheet" type="text/css"  href="北京市朝阳区房屋管理局业务网上预约窗口_files/yanzheng.css">
+<STYLE>BODY {
+	BACKGROUND-COLOR: #e6edf9
+}
+#toptable {
+	WIDTH: 778px
+}
+#bottomtable {
+	WIDTH: 778px
+}
+#thetime {
+	DISPLAY: none
+}
+#lbanner {
+	DISPLAY: none
+}
+#sbanner {
+	BACKGROUND-IMAGE: url(images/12.gif); DISPLAY: block; BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: right top; FLOAT: left; HEIGHT: 113px
+}
+#snav {
+	BORDER-BOTTOM: #000000 1px solid; TEXT-ALIGN: center; BACKGROUND-COLOR: #336699; DISPLAY: block; HEIGHT: 30px; BORDER-TOP: #ffffff 1px solid
+}
+#snav A {
+	COLOR: #ffffff; FONT-SIZE: 12px; FONT-WEIGHT: bold
+}
+.vlline {
+	MARGIN: 0px 1px; COLOR: #ffffff
+}
+.inp_st1 {
+	WIDTH: 160px; HEIGHT: 25px
+}
+</STYLE>
+
+<SCRIPT>
+	//判断ip当天是否已经预约
+     function ifCreateToday() {	
+	          	var flage=0;
+	          	var server_id = document.getElementById("p_Appointment_server_id").value;
+    	      		$.ajax( {
+					url : 'yyfh.appointment.do',
+					async:false,
+					type:"POST", 			
+					data:{m:"ifCreateToday",server_id:server_id},
+					dataType:"text",
+					success : function(data) {
+						var result=data.replace(/[\r\n]/g,"");
+						//alert(data+"tttt");
+                        		if (result == '1') {
+                        			
+									flage=1;
+								//	setButtonGray('p_Appointment_app_person_','button');
+									
+								}else if(result == '2'){
+									flage=2;
+								}else if(result == '3'){
+									flage=3;
+								} else{
+									flage=0;
+								}
+						
+					},
+					error : function(data) {
+						alert("请求超时!")
+						   flage=0;
+					}
+				})
+				return flage;
+ 
+    }
+
+function doShow() {
+	var frm = window.document.frm;
+	
+	var service_id = document.getElementById("p_Appointment_server_id").value;
+	
+	if (service_id == null || service_id == "") {
+		alert("请选择预约业务类型！");
+
+		return false;
+	}
+	//老验证码验证（js验证）
+	else if(validateCode('j_captcha_response','checkCode')==false){
+		alert("请输入正确的验证码！");
+		return false;
+	//新验证码验证（java验证）
+	/*else if(valcode==0){
+		alert("请输入正确的验证码！");
+		return false;*/
+	//}
+	// else if(validateCheckCode()==false){
+		// alert("请输入正确的验证码！");
+		// return false;
+	}else {
+		document.getElementById("service_ne").value = document
+				.getElementById("p_Appointment_server_id").value;//保存选择的类型
+				frm.p_Appointment_app_person_button.disabled=true;
+          var ifflag  =  ifCreateToday();
+        if(ifflag=='0'){
+	        frm.action="yyfh.appointment.do";
+			frm.m.value = "edit";
+			frm.p_Appointment_app_person_button.disabled="true"
+			frm.submit();
+		}else if(ifflag=='1'){
+			confirm("此IP地址已成功预约，不得重复使用该IP地址。", "确认", "goIndex");			
+			
+		}else if(ifflag=='2'){
+			confirm("系统繁忙请您稍后再试。", "确认", "goIndex");	
+		}
+	}
+}
+function validateCheckCode(){
+	var code = $("input[name='j_captcha_response']").val();
+	if("" == code || code.length != 2){
+		return false ;
+	}
+	return true ;
+}
+function goIndex(){
+	window.location.href='index.jsp';
+}
+function changeCheckCode(){
+	window.location.href="yyfh.appointment.do?m=add"
+}
+
+</SCRIPT>
+
+<SCRIPT language="Javascript1.1" type="text/javascript"> 
+
+<!-- Begin 
+
+     var bCancel = false; 
+
+    function validateForm(form) {                                                                   
+        if (bCancel) 
+      return true; 
+        else 
+       return validateDate(form); 
+   } 
+
+    function DateValidations () { 
+     this.aa = new Array("p_Appointment_app_date", "预约时间 不是有效日期格式。", new Function ("varName", "this.datePattern='yyyy-MM-dd';  return this[varName];"));
+     this.ab = new Array("p_Appointment_create_date", "预约单创建时间 不是有效日期格式。", new Function ("varName", "this.datePattern='yyyy-MM-dd';  return this[varName];"));
+     this.ac = new Array("p_Appointment_get_date", "发号时间 不是有效日期格式。", new Function ("varName", "this.datePattern='yyyy-MM-dd';  return this[varName];"));
+    } 
+
+
+//End --> 
+</SCRIPT>
+
+<META name="GENERATOR" content="MSHTML 8.00.6001.18702"></HEAD>
+<BODY onload="createCode('checkCode');" bottomMargin=0 leftMargin=0 rightMargin=0 topMargin=0>
+<FORM onsubmit="return validateForm(this);" method=post name=frm  action="">
+<INPUT type=hidden name=token> <INPUT type=hidden name=m> 
+<INPUT  id=result type=hidden name=result> <INPUT id=server_id type=hidden 
+name=server_id> <INPUT id=service_date type=hidden name=service_date> <INPUT 
+id=service_names type=hidden name=service_names> <INPUT id=service_card 
+type=hidden name=service_card> <INPUT id=service_ne type=hidden name=service_ne> 
+<INPUT id=p_Appointment_temp1 type=hidden name=p_Appointment_temp1> 
+<TABLE border=0 cellSpacing=2 cellPadding=2 width=778 bgColor=#ffffff 
+align=center>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e8e8e8 height=20><SPAN style="LETTER-SPACING: 1px" 
+      class=14white>您当前位置：业务选择 </SPAN></TD></TR>
+  <TR>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%" 
+        bgColor=#ffffff><TBODY>
+        <TR>
+          <TD rowSpan=3 width=31></TD>
+          <TD bgColor=#b5b5b5 width=1></TD>
+          <TD vAlign=top width=714>
+            <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD bgColor=#b5b5b5 height=1></TD></TR></TBODY></TABLE>
+            <TABLE class=list1 border=0 cellSpacing=0 cellPadding=0 
+width="100%">
+              <TBODY>
+              <TR>
+                <TD width=30>&nbsp; </TD>
+                <TD vAlign=top width=654 align=middle>
+                  <TABLE id=contable border=0 cellSpacing=0 cellPadding=0 
+                  width="100%" align=center>
+                    <TBODY>
+                    <TR>
+                      <TD style="VERTICAL-ALIGN: middle" class=contitle 
+                      align=middle><FONT 
+                        style="LINE-HEIGHT: 30px; FONT-SIZE: 30px"><STRONG>请选择预约业务</STRONG> 
+                        </FONT></TD></TR>
+                    <TR>
+                      <TD class=context align=middle>
+                        <TABLE border=0 cellSpacing=1 cellPadding=0 
+width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD width="50%" align=right>预约业务类型： </TD>
+                            <TD width="50%" align=left><SELECT 
+                              style="WIDTH: 260px" onchange="" 
+                              name=p_Appointment_server_id> <OPTION 
+                                value="">-- 请选择 --</OPTION> <OPTION 
+                                value=297edff83cf6b763013cf63363c70005>2.一手房</OPTION> 
+                                <OPTION selected 
+                                value=297edff83cf6b763013cf634a2f80006>3.二手房、非法院拍卖</OPTION> 
+                                <OPTION 
+                                value=297edff83cf6b763013cf64554e40010>13.一般抵押权登记、在建工程抵押转现房抵押</OPTION> 
+                                <OPTION 
+                                value=297edff83cf6b763013cf6463acf0011>14.最高额抵押权登记</OPTION> 
+                                <OPTION 
+                                value=297edff83cf6b763013cf64deedf0012>15.预购商品房预告登记</OPTION> 
+                                <OPTION 
+                                value=297edff83cf6b763013cf64edcd50013>16.预购商品房抵押权预告登记</OPTION></SELECT> 
+                              <SPAN style="COLOR: red">*</SPAN> </TD></TR>
+                          <TR>
+                            <TD width="50%" colSpan=2 align=left>&nbsp; &nbsp; 
+                              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                              &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; 
+                              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                              &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 
+                              &nbsp;（如在下拉菜单中无选项，请到大厅现场预约!） </TD></TR>
+                          <TR>
+                            <TD width="50%" align=right>请输入验证码： </TD>
+                            <TD width="50%" align=left><INPUT 
+                              id=j_captcha_response name=j_captcha_response> 
+                              <FONT color=red>*</FONT> <INPUT style="WIDTH: 60px" id=checkCode class=code type=button> 
+                              <FONT color=green size=2><A 
+                              href="javascript:createCode('checkCode')">换一张</A> 
+                              </FONT></TD></TR>
+                          <TR>
+                            <TD colSpan=2>
+                              <P align=center><INPUT onclick=doShow() value=" 下一步 " type=button name=p_Appointment_app_person_button> 
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <INPUT onclick="window.location.href='index.jsp';" value=" 返 回 " type=button> 
+                              </P></TD></TR></TBODY></TABLE></TD></TR>
+                    <TR>
+                      <TD align=left></TD></TR></TBODY></TABLE></TD>
+                <TD width=30>&nbsp; </TD></TR></TBODY></TABLE></TD>
+          <TD bgColor=#b5b5b5 width=1></TD>
+          <TD bgColor=#dedede vAlign=top rowSpan=3 width=3>
+            <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%" 
+            bgColor=#ffffff>
+              <TBODY>
+              <TR>
+                <TD height=5></TD></TR></TBODY></TABLE></TD>
+          <TD rowSpan=3 width=32></TD></TR>
+        <TR>
+          <TD bgColor=#b5b5b5 height=1 width=716 colSpan=3></TD></TR>
+        <TR>
+          <TD bgColor=#e0e0e0 height=3 width=716 colSpan=3 align=left>
+            <TABLE border=0 cellSpacing=0 cellPadding=0 width=5 height=3>
+              <TBODY>
+              <TR>
+                <TD 
+  bgColor=#ffffff></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FORM></BODY></HTML>

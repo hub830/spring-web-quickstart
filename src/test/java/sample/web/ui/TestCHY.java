@@ -1,11 +1,11 @@
 package sample.web.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.File;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlparser.Node;
@@ -16,9 +16,6 @@ import org.htmlparser.util.NodeList;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.junit.Assert.*;
-
-import io.undertow.util.FileUtils;
 
 public class TestCHY {
 	private static final Logger log = LoggerFactory.getLogger(TestCHY.class);
@@ -26,8 +23,8 @@ public class TestCHY {
 	// @Test
 	public void testLogin() throws Exception {
 		try {
-			InputStream is = new FileInputStream("C:/Users/fbi/git/spring-web-quickstart/src/main/resources/public/templates/flat/test/1.html");
-			String content = FileUtils.readFile(is);
+			File is = new File("C:/Users/fbi/git/spring-web-quickstart/src/main/resources/public/templates/flat/test/1.html");
+			String content = FileUtils.readFileToString(is);
 
 			Parser parser = new Parser(content);
 
@@ -49,8 +46,7 @@ public class TestCHY {
 //	@Test
 	public void testCleaner() throws Exception {
 		HtmlCleaner cleaner = new HtmlCleaner();
-		InputStream is = new FileInputStream("C:/Users/fbi/git/spring-web-quickstart/src/main/resources/public/templates/flat/test/1.html");
-		String content = FileUtils.readFile(is);
+		String content = FileUtils.readFileToString(new File("C:/Users/fbi/git/spring-web-quickstart/src/main/resources/public/templates/flat/test/1.html"));
 		TagNode tn = cleaner.clean(content);
 		String xpath = ".//*[@id='contable']/tbody/tr[2]/td/table/tbody/tr[1]/td[2]/select/option[3]";
 		Object[] objarr = null;
@@ -72,8 +68,9 @@ public class TestCHY {
 //	@Test
 	public void testSign() throws Exception {
 		HtmlCleaner cleaner = new HtmlCleaner();
-		InputStream is = new FileInputStream("C:/Users/fbi/git/spring-web-quickstart/src/main/resources/public/templates/flat/test/3.html");
-		String content = FileUtils.readFile(is);
+
+		File is = new File("C:/Users/fbi/git/spring-web-quickstart/src/main/resources/public/templates/flat/test/3.html");
+		String content = FileUtils.readFileToString(is);
 		TagNode tn = cleaner.clean(content);
 		String xpath = "//table[@id='contable']//img";
 		Object[] objarr = null;

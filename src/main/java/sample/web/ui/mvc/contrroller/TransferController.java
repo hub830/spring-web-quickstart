@@ -25,14 +25,14 @@ final class TransferController {
     	return "transfer/list";
     }
 
-    @RequestMapping
+    @RequestMapping(value="step1")
     @ResponseBody
     public String step1(Model model,Long id) {
     	service.step1(id);
     	return "success";
     }
 
-    @RequestMapping
+    @RequestMapping(value="step2")
     @ResponseBody
     public String step2(Model model,Long id,String captch) {
     	service.step2(id, captch);

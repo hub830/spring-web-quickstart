@@ -64,16 +64,18 @@ war {
 
 configurations { 
 	providedRuntime 
-	compile.exclude group: 'org.apache.tomcat.embed'
+//	compile.exclude group: 'org.apache.tomcat.embed'
 }
 
 
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}"){exclude  module: 'spring-boot-starter-tomcat'}
 	compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
-	providedRuntime("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
+//	providedRuntime("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
+	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}")
 	compile("org.hibernate:hibernate-validator")
 	compile "org.apache.commons:commons-lang3:3.4"
+	compile 'commons-io:commons-io:2.4'
 	compile "org.apache.httpcomponents:httpclient:4.5.2"
 	compile "org.projectlombok:lombok:1.16.6"
 	compile "org.htmlparser:htmlparser:1.6"

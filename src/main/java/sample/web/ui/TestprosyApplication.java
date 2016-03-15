@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Bean;
 
 import sample.web.ui.service.ProxyService;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class TestprosyApplication {
 	private static final Logger log = LoggerFactory.getLogger(TestprosyApplication.class);
 	

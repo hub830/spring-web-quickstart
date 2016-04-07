@@ -55,8 +55,6 @@ public class TestWithloginControllerTest  extends AbstractShiroTest {
 			
 			
 
-		    Subject subject = SecurityUtils.getSubject（）；
-		    subject.login（new UsernamePasswordToken（userName, password））；
 
 			ResultActions actions = this.mockMvc.perform( get("/test/noLogin/login"));
 //			ResultActions actions = this.mockMvc.perform(post("/login").param("name", "test027").param("password", "111111"));

@@ -14,7 +14,7 @@ import sample.web.ui.service.TestAService;
 
 
 @Controller
-@RequestMapping(value = "test/noLogin")
+@RequestMapping(value = "${version}/test/noLogin")
 public class TestController {
 	Logger log = LoggerFactory.getLogger(TestController.class);
 

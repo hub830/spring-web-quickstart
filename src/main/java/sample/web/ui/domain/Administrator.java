@@ -17,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.NotFound;
@@ -148,5 +149,9 @@ public class Administrator {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	public String toString() {
+		
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

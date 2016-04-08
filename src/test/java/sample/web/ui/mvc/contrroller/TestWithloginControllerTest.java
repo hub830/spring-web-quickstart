@@ -54,7 +54,6 @@ public class TestWithloginControllerTest  extends AbstractShiroTest {
 
 			
 			
-<<<<<<< HEAD
 
 
 			ResultActions actions = this.mockMvc.perform( get("/test/noLogin/login"));
@@ -69,8 +68,6 @@ public class TestWithloginControllerTest  extends AbstractShiroTest {
 					.param("c", "c").session(mockSession))
 			.andExpect(status().isFound())
 			.andDo(MockMvcResultHandlers.print());
-=======
->>>>>>> 679be7159a36d02451e3fcf8a33bd1e9c9db29a8
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

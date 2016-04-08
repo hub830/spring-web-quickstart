@@ -1,13 +1,13 @@
 buildscript {
 	ext {
 		springBootVersion = '1.3.0.RC1'
-//		springBootVersion = '1.2.7.RELEASE'
+		//		springBootVersion = '1.2.7.RELEASE'
 		springLoadedVersion = '1.2.4.RELEASE'
 	}
 	repositories {
-//		maven { url "http://192.168.11.11:8081/nexus/content/repositories/spring-snapshot/" }
-//		maven { url "http://192.168.11.11:8081/nexus/content/groups/public" }
-		
+		//		maven { url "http://192.168.11.11:8081/nexus/content/repositories/spring-snapshot/" }
+		//		maven { url "http://192.168.11.11:8081/nexus/content/groups/public" }
+
 		mavenLocal()
 		mavenCentral()
 		maven { url "http://repo.spring.io/release" }
@@ -24,13 +24,17 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'spring-boot'
+apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
+apply plugin: 'jdepend'
+apply plugin: 'pmd'
 apply plugin: 'war'
 
 
 repositories {
-//		maven { url "http://192.168.11.11:8081/nexus/content/repositories/spring-snapshot/" }
-//	maven { url "http://192.168.11.11:8081/nexus/content/groups/public" }
-	
+	//		maven { url "http://192.168.11.11:8081/nexus/content/repositories/spring-snapshot/" }
+	//	maven { url "http://192.168.11.11:8081/nexus/content/groups/public" }
+
 	mavenLocal()
 	mavenCentral()
 	maven { url "http://repo.spring.io/release" }
@@ -43,47 +47,56 @@ ext.env = System.getProperty("env")?:"dev"
 sourceSets {
 	main {
 		resources {
-			srcDirs = ["src/main/resources/public","src/main/resources/$env"]
+			srcDirs = [
+				"src/main/resources/public",
+				"src/main/resources/$env"
+			]
 		}
 	}
 }
 
-springBoot {
-    classifier = 'exec'
-}
+springBoot { classifier = 'exec' }
 jar {
 	baseName = 'spring-boot-sample-web-ui'
 	version =  '0.0.0'
 }
 
 war {
-	baseName = 'spring-boot-sample-web-ui'
+	baseName = 'spring-web-quickstart'
 	version =  '0.0.0'
 }
 
-configurations {
-	providedRuntime
-//    compile.exclude group: 'org.apache.tomcat.embed'
+configurations { providedRuntime //    compile.exclude group: 'org.apache.tomcat.embed'
 }
 
+findbugs {
+	//  ignoreFailures = true
+	//  toolVersion = "2.0.1"
+	//  sourceSets = [sourceSets.main]
+	//  effort = "max"
+	reportLevel = "medium"
+	//  reportLevel = "low"
+}
+
+pmd {
+	ruleSets = ["basic", "braces"]
+}
 
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}")
 	compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
-	
-//	compile("org.springframework.amqp:spring-rabbit:1.3.5.RELEASE")
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}")
+
+	//	compile("org.springframework.amqp:spring-rabbit:1.3.5.RELEASE")
+	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}")
 	compile("org.hibernate:hibernate-validator")
 	compile "org.apache.shiro:shiro-core:1.2.4"
 	compile "org.apache.shiro:shiro-spring:1.2.4"
 	compile "org.apache.commons:commons-lang3:3.4"
 	compile "org.apache.shiro:shiro-web:1.2.4"
-  compile("org.springframework.boot:spring-boot-devtools")
+	compile("org.springframework.boot:spring-boot-devtools")
 	runtime "mysql:mysql-connector-java:5.1.37"
 	testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
-}
+task wrapper(type: Wrapper) { gradleVersion = '2.3' }
 
